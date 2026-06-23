@@ -1,1 +1,10 @@
 
+From: security@example.com
+To: user@example.com
+Subject: Security Alert
+
+SPF: PASS
+DKIM: PASS
+DMARC: PASS
+
+Received: mail.example.com
