@@ -1,18 +1,22 @@
 import requests
 
+print("=" * 50)
+print("      WEBSITE SECURITY HEADER SCANNER")
+print("=" * 50)
+
 url = input("Enter Website URL (https://): ")
 
 try:
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
 
     print("\nWebsite Header Analysis")
-    print("-" * 40)
+    print("-" * 50)
 
     for header, value in response.headers.items():
         print(f"{header}: {value}")
 
     print("\nSecurity Header Check")
-    print("-" * 40)
+    print("-" * 50)
 
     security_headers = [
         "X-Frame-Options",
@@ -22,10 +26,26 @@ try:
     ]
 
     for header in security_headers:
-        if header in response.headers:
+
+        found = False
+
+        for existing_header in response.headers.keys():
+            if header.lower() in existing_header.lower():
+                found = True
+                break
+
+        if found:
             print(f"✓ {header} Present")
         else:
             print(f"✗ {header} Missing")
 
+    print("\nScan Completed Successfully")
+
+except requests.exceptions.ConnectionError:
+    print("\nError: Unable to connect to the website.")
+
+except requests.exceptions.Timeout:
+    print("\nError: Request timed out.")
+
 except Exception as e:
-    print("Error:", e)
+    print(f"\nUnexpected Error: {e}")
