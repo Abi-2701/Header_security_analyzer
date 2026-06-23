@@ -1,0 +1,31 @@
+import requests
+
+url = input("Enter Website URL (https://): ")
+
+try:
+    response = requests.get(url)
+
+    print("\nWebsite Header Analysis")
+    print("-" * 40)
+
+    for header, value in response.headers.items():
+        print(f"{header}: {value}")
+
+    print("\nSecurity Header Check")
+    print("-" * 40)
+
+    security_headers = [
+        "X-Frame-Options",
+        "Content-Security-Policy",
+        "Strict-Transport-Security",
+        "X-Content-Type-Options"
+    ]
+
+    for header in security_headers:
+        if header in response.headers:
+            print(f"✓ {header} Present")
+        else:
+            print(f"✗ {header} Missing")
+
+except Exception as e:
+    print("Error:", e)
