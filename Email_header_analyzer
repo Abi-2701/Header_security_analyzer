@@ -1,0 +1,45 @@
+print("=" * 50)
+print("        EMAIL HEADER ANALYZER")
+print("=" * 50)
+
+try:
+    with open("sample_email_header.txt", "r") as file:
+        data = file.read()
+
+    print("\nEmail Header Analysis")
+    print("-" * 40)
+
+    risk_score = 0
+
+    if "SPF: PASS" in data:
+        print("✓ SPF Validation Passed")
+    else:
+        print("✗ SPF Validation Failed")
+        risk_score += 1
+
+    if "DKIM: PASS" in data:
+        print("✓ DKIM Validation Passed")
+    else:
+        print("✗ DKIM Validation Failed")
+        risk_score += 1
+
+    if "DMARC: PASS" in data:
+        print("✓ DMARC Validation Passed")
+    else:
+        print("✗ DMARC Validation Failed")
+        risk_score += 1
+
+    print("\nRisk Assessment")
+    print("-" * 40)
+
+    if risk_score == 0:
+        print("Risk Level : LOW")
+    elif risk_score == 1:
+        print("Risk Level : MEDIUM")
+    else:
+        print("Risk Level : HIGH")
+
+    print("\nAnalysis Completed")
+
+except FileNotFoundError:
+    print("sample_email_header.txt not found")
